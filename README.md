@@ -13,7 +13,7 @@ ssh root@loomio.dinotech.co.nz
 ## Clone loomio-deploy
 
 ```sh
-git clone git@github.com:loomio/loomio-deploy.git
+git clone https://github.com/loomio/loomio-deploy.git
 cd loomio-deploy
 ./scripts/create_swapfile
 ./scripts/install_docker
@@ -38,6 +38,7 @@ nano config/env
 ```
 
 Set your hostname and tld_length. We'll cover smtp settings later
+
 
 ./scripts/issue_ssl_certificate
 

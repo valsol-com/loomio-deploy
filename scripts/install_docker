@@ -5,4 +5,5 @@ apt-key adv --keyserver hkp://p80.pool.sks-keyservers.net:80 --recv-keys 58118E8
 echo "deb https://apt.dockerproject.org/repo ubuntu-wily main" > /etc/apt/sources.list.d/docker.list
 apt-get update
 apt-cache policy docker-engine
-apt-get install -y linux-image-extra-$(uname -r) docker-engine docker-compose
+apt-get install -y linux-image-extra-$(uname -r) docker-engine python-pip
+pip install docker-compose
