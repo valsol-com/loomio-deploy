@@ -1,0 +1,14 @@
+app:
+  image: loomio/loomio:docker
+  ports:
+    - 80:3000
+  links:
+    - postgres: db
+
+db:
+  image: postgres
+  volumes:
+    - /loomio/pgdata:/pgdata
+  environment:
+   - POSTGRES_PASSWORD=password
+   - PGDATA=/pgdata
