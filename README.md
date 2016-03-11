@@ -41,7 +41,7 @@ Set your hostname and tld_length. We'll cover smtp settings later
 
 Issue an ssl certificate for your hostname:
 docker run -it --rm -p 443:443 -p 80:80 --name letsencrypt \
-            -v "/loomio/config/letsencrypt:/etc/letsencrypt" \
+            -v "/root/loomio-deploy/certificates/:/etc/letsencrypt" \
             -v "/var/lib/letsencrypt:/var/lib/letsencrypt" \
             quay.io/letsencrypt/letsencrypt:latest auth
 
