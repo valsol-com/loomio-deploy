@@ -18,7 +18,7 @@ db:
    - POSTGRES_PASSWORD=password
    - PGDATA=/pgdata
 
-ssl_issue:
+issue_ssl_cert:
   image: quay.io/letsencrypt/letsencrypt:latest
   ports:
     - 443:443
@@ -26,9 +26,9 @@ ssl_issue:
   volumes:
     - ./config/letsencrypt:/etc/letsencrypt
     - /var/lib/letsencrypt:/var/lib/letsencrypt
-  command: quay.io/letsencrypt/letsencrypt:latest auth
+  command: auth
 
-ssl_renew:
+renew_ssl_cert:
   image: quay.io/letsencrypt/letsencrypt:latest
   ports:
     - 443:443
@@ -36,4 +36,4 @@ ssl_renew:
   volumes:
     - ./config/letsencrypt:/etc/letsencrypt
     - /var/lib/letsencrypt:/var/lib/letsencrypt
-  command: quay.io/letsencrypt/letsencrypt:latest renew
+  command: renew

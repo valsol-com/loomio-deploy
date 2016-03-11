@@ -39,9 +39,7 @@ nano config/env
 
 Set your hostname and tld_length. We'll cover smtp settings later
 
-
-./scripts/issue_ssl_certificate
-
+docker-compose run issue_ssl_cert
 docker-compose run postgres
 ./scripts/seed_loomio_database
 docker-compose run loomio
