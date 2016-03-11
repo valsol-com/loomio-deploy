@@ -1,17 +1,19 @@
 app:
   image: loomio/loomio:docker
-  env_file: env
+  env_file: config/env
   ports:
     - 80:3000
   links:
     - db: db
   environment:
     - DATABASE_URL=postgresql://postgres:password@db/loomio_production
+  volumes:
+    - ./uploads:/loomio/whereveruploadsgo
 
 db:
   image: postgres
   volumes:
-    - /loomio/pgdata:/pgdata
+    - ./pgdata:/pgdata
   environment:
    - POSTGRES_PASSWORD=password
    - PGDATA=/pgdata
