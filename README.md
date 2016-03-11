@@ -45,9 +45,8 @@ docker run -it --rm -p 443:443 -p 80:80 --name letsencrypt \
             -v "/var/lib/letsencrypt:/var/lib/letsencrypt" \
             quay.io/letsencrypt/letsencrypt:latest auth
 
-docker-compose run db
-./scripts/seed_loomio_database
-docker-compose run loomio
+/usr/local/bin/docker-compose run app rake db:setup
+/usr/local/bin/docker-compose up -d
 
 cat crontab >> /etc/crontab
 
