@@ -13,11 +13,11 @@ ssh root@loomio.dinotech.co.nz
 ## Clone loomio-deploy
 
 ```sh
+./scripts/install_docker
 git clone https://github.com/loomio/loomio-deploy.git
 cd loomio-deploy
 ./scripts/create_swapfile
-./scripts/install_docker
-service docker start
+replacce with:
 docker run hello-world
 ```
 
@@ -36,20 +36,44 @@ Edit your env
 ```sh
 nano config/env
 ```
+edit the defaults to be the example hostname.
 
-Set your hostname and tld_length. We'll cover smtp settings later
+Set your hostname and tld_length.
+
+You will need an SMTP server, here are some options:
+
+- If you already have a mail server, that's great, you know what to do.
+
+- For setups that will send less than 99 emails a day [use smtp.google.com](https://www.digitalocean.com/community/tutorials/how-to-use-google-s-smtp-server) for free.
+
+- Look at the services offered by [SendGrid](https://sendgrid.com/), [SparkPost](https://www.sparkpost.com/), [Mailgun](http://www.mailgun.com/), [Mailjet](https://www.mailjet.com/pricing).
+
+- Very shortly we'll publish a guide to setting up your own secure SMTP server.
 
 Issue an ssl certificate for your hostname:
+
+```sh
 docker run -it --rm -p 443:443 -p 80:80 --name letsencrypt \
             -v "/root/loomio-deploy/certificates/:/etc/letsencrypt" \
             -v "/var/lib/letsencrypt:/var/lib/letsencrypt" \
             quay.io/letsencrypt/letsencrypt:latest auth
+```
 
+``` Setup the database
 /usr/local/bin/docker-compose run app rake db:setup
+```
+
+``` start the system
 /usr/local/bin/docker-compose up -d
+```
 
+install crontab
+note: change it to use docker-compose run
+```
 cat crontab >> /etc/crontab
+```
 
+# these will be run by docker-compose automatically
 docker-compose run mailin
 docker-compose run loomio-pubsub
 
@@ -81,13 +105,3 @@ To login to your running rails app
 ```sh
 docker exec -t -i loomiodeploy_app_1 bundle exec rails console
 ```
-
-So you need an SMTP server, here are some options:
-
-- If you already have a mail server, that's great, you know what to do.
-
-- If you less than 99 emails a day [use your gmail account and smtp.google.com](https://www.digitalocean.com/community/tutorials/how-to-use-google-s-smtp-server) for free.
-
-- Look at the services offered by [SendGrid](https://sendgrid.com/), [SparkPost](https://www.sparkpost.com/), [Mailgun](http://www.mailgun.com/), [Mailjet](https://www.mailjet.com/pricing).
-
-- Very shortly we'll publish a guide to setting up your own secure SMTP server.
