@@ -39,8 +39,13 @@ nano config/env
 
 Set your hostname and tld_length. We'll cover smtp settings later
 
-docker-compose run issue_ssl_cert
-docker-compose run postgres
+Issue an ssl certificate for your hostname:
+docker run -it --rm -p 443:443 -p 80:80 --name letsencrypt \
+            -v "/loomio/config/letsencrypt:/etc/letsencrypt" \
+            -v "/var/lib/letsencrypt:/var/lib/letsencrypt" \
+            quay.io/letsencrypt/letsencrypt:latest auth
+
+docker-compose run db
 ./scripts/seed_loomio_database
 docker-compose run loomio
 
