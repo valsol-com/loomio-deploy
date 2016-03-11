@@ -76,6 +76,11 @@ docker pull loomio/loomio
 docker run
 ```
 
+To login to your running rails app
+
+```sh
+docker exec -t -i loomiodeploy_app_1 bundle exec rails console
+```
 
 So you need an SMTP server, here are some options:
 

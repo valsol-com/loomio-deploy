@@ -12,5 +12,5 @@ export SMTP_USERNAME=smtpusername
 export SMTP_PASSWORD=smtppassword
 
 # these vars are correct for standard installs
-export LOOMIO_SSL_KEY=/config/letsencrypt/live/$CANONICAL_HOST/privkey.pem
-export LOOMIO_SSL_CERT=/config/letsencrypt/live/$CANONICAL_HOST/fullchain.pem
+export LOOMIO_SSL_KEY=/certificates/live/$CANONICAL_HOST/privkey.pem
+export LOOMIO_SSL_CERT=/certificates/live/$CANONICAL_HOST/fullchain.pem

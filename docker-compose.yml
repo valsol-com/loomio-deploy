@@ -9,6 +9,7 @@ app:
     - DATABASE_URL=postgresql://postgres:password@db/loomio_production
   volumes:
     - ./uploads:/loomio/whereveruploadsgo
+    - ./certificates:/certificates
 
 db:
   image: postgres
