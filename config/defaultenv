@@ -1,16 +1,16 @@
 # this is the hostname of your app
-export CANONICAL_HOST=your.host.name
+CANONICAL_HOST=your.host.name
 
 # the number of dots in your hostname
-export TLD_LENGTH=2
+TLD_LENGTH=2
 
 # smtp settings
-export SMTP_DOMAIN=$CANONICAL_HOST
-export SMTP_SERVER=smtp.something.com
-export SMTP_PORT=465
-export SMTP_USERNAME=smtpusername
-export SMTP_PASSWORD=smtppassword
+SMTP_DOMAIN=your.host.name
+SMTP_SERVER=smtp.something.com
+SMTP_PORT=465
+SMTP_USERNAME=smtpusername
+SMTP_PASSWORD=smtppassword
 
 # ssl certificates
-export LOOMIO_SSL_KEY=/certificates/live/your.host.name/privkey.pem
-export LOOMIO_SSL_CERT=/certificates/live/your.host.name/fullchain.pem
+LOOMIO_SSL_KEY=/certificates/live/your.host.name/privkey.pem
+LOOMIO_SSL_CERT=/certificates/live/your.host.name/fullchain.pem

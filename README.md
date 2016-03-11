@@ -13,8 +13,12 @@ ssh root@loomio.dinotech.co.nz
 ## Clone loomio-deploy
 
 ```sh
-./scripts/install_docker
+wget -qO- https://get.docker.com/ | sh
+wget -O /usr/local/bin/docker-compose https://github.com/docker/compose/releases/download/1.6.2/docker-compose-`uname -s`-`uname -m`
+chmod +x /usr/local/bin/docker-compose
+
 git clone https://github.com/loomio/loomio-deploy.git
+./scripts/install_docker
 cd loomio-deploy
 ./scripts/create_swapfile
 replacce with:
