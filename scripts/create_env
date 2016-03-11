@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 mkdir pgdata
 mkdir uploads
 # strips all chars except . from hostname
