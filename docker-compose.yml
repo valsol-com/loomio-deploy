@@ -1,9 +1,12 @@
 app:
   image: loomio/loomio:docker
+  env_file: env
   ports:
     - 80:3000
   links:
-    - postgres: db
+    - db: db
+  environment:
+    - DATABASE_URL=postgresql://postgres:password@db/loomio_production
 
 db:
   image: postgres
@@ -12,3 +15,23 @@ db:
   environment:
    - POSTGRES_PASSWORD=password
    - PGDATA=/pgdata
+
+ssl_issue:
+  image: quay.io/letsencrypt/letsencrypt:latest
+  ports:
+    - 443:443
+    - 80:80
+  volumes:
+    - ./config/letsencrypt:/etc/letsencrypt
+    - /var/lib/letsencrypt:/var/lib/letsencrypt
+  command: quay.io/letsencrypt/letsencrypt:latest auth
+
+ssl_renew:
+  image: quay.io/letsencrypt/letsencrypt:latest
+  ports:
+    - 443:443
+    - 80:80
+  volumes:
+    - ./config/letsencrypt:/etc/letsencrypt
+    - /var/lib/letsencrypt:/var/lib/letsencrypt
+  command: quay.io/letsencrypt/letsencrypt:latest renew

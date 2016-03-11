@@ -1,0 +1,16 @@
+# this is the hostname of your app
+export CANONICAL_HOST=your.host.name
+
+# the number of dots in your hostname
+export TLD_LENGTH=2
+
+# smtp settings
+export SMTP_DOMAIN=$CANONICAL_HOST
+export SMTP_SERVER=smtp.something.com
+export SMTP_PORT=465
+export SMTP_USERNAME=smtpusername
+export SMTP_PASSWORD=smtppassword
+
+# these vars are correct for standard installs
+export LOOMIO_SSL_KEY=/config/letsencrypt/live/$CANONICAL_HOST/privkey.pem
+export LOOMIO_SSL_CERT=/config/letsencrypt/live/$CANONICAL_HOST/fullchain.pem
