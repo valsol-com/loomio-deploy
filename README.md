@@ -18,11 +18,9 @@ wget -O /usr/local/bin/docker-compose https://github.com/docker/compose/releases
 chmod +x /usr/local/bin/docker-compose
 
 git clone https://github.com/loomio/loomio-deploy.git
-./scripts/install_docker
 cd loomio-deploy
+
 ./scripts/create_swapfile
-replacce with:
-docker run hello-world
 ```
 
 If all that went correctly, your terminal should look like this:
@@ -64,11 +62,11 @@ docker run -it --rm -p 443:443 -p 80:80 --name letsencrypt \
 ```
 
 ``` Setup the database
-/usr/local/bin/docker-compose run app rake db:setup
+docker-compose run app rake db:setup
 ```
 
 ``` start the system
-/usr/local/bin/docker-compose up -d
+docker-compose up -d
 ```
 
 install crontab
@@ -76,6 +74,9 @@ note: change it to use docker-compose run
 ```
 cat crontab >> /etc/crontab
 ```
+
+todo:
+add mailin, loomio-pubsub
 
 # these will be run by docker-compose automatically
 docker-compose run mailin

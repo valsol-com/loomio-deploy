@@ -1,6 +1,6 @@
 #!/bin/sh
 mkdir pgdata
 mkdir uploads
-cp config/defaultenv env
-echo export DEVISE_SECRET=`openssl rand -base64 48` >> env
-echo export SECRET_COOKIE_TOKEN=`openssl rand -base64 48` >> env
+cp scripts/defaultenv env
+echo DEVISE_SECRET=`openssl rand -base64 48` >> env
+echo SECRET_COOKIE_TOKEN=`openssl rand -base64 48` >> env
