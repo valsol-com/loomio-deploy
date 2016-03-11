@@ -19,3 +19,10 @@ db:
   environment:
    - POSTGRES_PASSWORD=password
    - PGDATA=/pgdata
+
+mailin:
+  image: loomio/mailin-docker:latest
+  links:
+    - loomio:loomio
+  environment:
+    - WEBHOOK_URL=http://loomio:3000/email_processor/

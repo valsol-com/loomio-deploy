@@ -1,16 +1,16 @@
 # this is the hostname of your app
-CANONICAL_HOST=your.host.name
+CANONICAL_HOST=REPLACE_WITH_HOSTNAME
 
 # the number of dots in your hostname
-TLD_LENGTH=2
+TLD_LENGTH=REPLACE_WITH_TLD_LENGTH
 
 # smtp settings
-SMTP_DOMAIN=your.host.name
+SMTP_DOMAIN=REPLACE_WITH_HOSTNAME
 SMTP_SERVER=smtp.something.com
 SMTP_PORT=465
 SMTP_USERNAME=smtpusername
 SMTP_PASSWORD=smtppassword
 
 # ssl certificates
-LOOMIO_SSL_KEY=/certificates/live/your.host.name/privkey.pem
-LOOMIO_SSL_CERT=/certificates/live/your.host.name/fullchain.pem
+LOOMIO_SSL_KEY=/certificates/live/REPLACE_WITH_HOSTNAME/privkey.pem
+LOOMIO_SSL_CERT=/certificates/live/REPLACE_WITH_HOSTNAME/fullchain.pem

@@ -1,6 +1,9 @@
 # loomio-deploy
 ## Use this to setup a Loomio instance
 
+know domain for host and have access to edit records
+add a record for new vps
+add mx record for inbound email priority 0
 insert, use/buy domain name, setup vps
 
 ## Login as root
@@ -10,30 +13,35 @@ To login to the server, open a terminal window and type:
 ssh root@loomio.dinotech.co.nz
 ```
 
-## Clone loomio-deploy
+## install docker and docker-compose
 
 ```sh
 wget -qO- https://get.docker.com/ | sh
 wget -O /usr/local/bin/docker-compose https://github.com/docker/compose/releases/download/1.6.2/docker-compose-`uname -s`-`uname -m`
 chmod +x /usr/local/bin/docker-compose
+```
 
+## Clone the loomio-deploy git repository
+
+```sh
 git clone https://github.com/loomio/loomio-deploy.git
 cd loomio-deploy
+```
 
+## Setup a swapfile (optional)
+If you don't have much memory it can help to turn some SSD into fake RAM
+
+```sh
 ./scripts/create_swapfile
 ```
 
-If all that went correctly, your terminal should look like this:
-
-![docker hello world](docker_hello_world.png)
-
-Create a config file:
+## Create your config file:
 
 ```sh
 ./scripts/create_env
 ```
 
-Edit your env
+Now edit your env file, replacing your.host.name with your actual hostname
 
 ```sh
 nano config/env
@@ -76,7 +84,7 @@ cat crontab >> /etc/crontab
 ```
 
 todo:
-add mailin, loomio-pubsub
+add mailin, loomio-pubsub, force ssl
 
 # these will be run by docker-compose automatically
 docker-compose run mailin
