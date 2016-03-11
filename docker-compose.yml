@@ -2,7 +2,8 @@ app:
   image: loomio/loomio:docker
   env_file: ./config/env
   ports:
-    - 443:3000
+    - 80:3000
+    - 443:9292
   links:
     - db:db
   environment:
