@@ -11,6 +11,6 @@ export SMTP_PORT=465
 export SMTP_USERNAME=smtpusername
 export SMTP_PASSWORD=smtppassword
 
-# these vars are correct for standard installs
-export LOOMIO_SSL_KEY=/certificates/live/$CANONICAL_HOST/privkey.pem
-export LOOMIO_SSL_CERT=/certificates/live/$CANONICAL_HOST/fullchain.pem
+# ssl certificates
+export LOOMIO_SSL_KEY=/certificates/live/your.host.name/privkey.pem
+export LOOMIO_SSL_CERT=/certificates/live/your.host.name/fullchain.pem
