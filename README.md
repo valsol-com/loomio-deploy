@@ -84,11 +84,8 @@ cat crontab >> /etc/crontab
 ```
 
 todo:
-confirm mailin, pubsub work
-force ssl
-
-```sh
-```
+* confirm mailin, pubsub work
+* force ssl
 
 Other need to know docker commands include:
 * `docker ps` lists running containers.
