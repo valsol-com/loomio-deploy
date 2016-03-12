@@ -1,4 +1,4 @@
-app:
+web:
   image: loomio/loomio:docker
   env_file: ./env
   ports:
@@ -23,9 +23,9 @@ db:
 mailin:
   image: loomio/mailin-docker:latest
   links:
-    - loomio:loomio
+    - web:web
   environment:
-    - WEBHOOK_URL=http://loomio:3000/email_processor/
+    - WEBHOOK_URL=http://web:3000/email_processor/
 
 faye:
   image: loomio/loomio-faye

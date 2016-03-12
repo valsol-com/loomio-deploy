@@ -41,14 +41,11 @@ If you don't have much memory it can help to turn some SSD into fake RAM
 ./scripts/create_env your.host.name
 ```
 
-Now edit your env file, replacing your.host.name with your actual hostname
+# setup SMTP
 
 ```sh
 nano config/env
 ```
-edit the defaults to be the example hostname.
-
-Set your hostname and tld_length.
 
 You will need an SMTP server, here are some options:
 
