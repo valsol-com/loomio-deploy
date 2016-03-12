@@ -69,7 +69,7 @@ docker run -it --rm -p 443:443 -p 80:80 --name letsencrypt \
 ```
 
 ``` Setup the database
-docker-compose run app rake db:setup
+docker-compose run web rake db:setup
 ```
 
 ``` start the system
