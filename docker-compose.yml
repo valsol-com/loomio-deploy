@@ -26,3 +26,9 @@ mailin:
     - loomio:loomio
   environment:
     - WEBHOOK_URL=http://loomio:3000/email_processor/
+
+faye:
+  image: loomio/loomio-faye
+  env_file: ./env
+  ports:
+    - 4443:4443

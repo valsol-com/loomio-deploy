@@ -38,7 +38,7 @@ If you don't have much memory it can help to turn some SSD into fake RAM
 ## Create your config file:
 
 ```sh
-./scripts/create_env
+./scripts/create_env your.host.name
 ```
 
 Now edit your env file, replacing your.host.name with your actual hostname
@@ -60,7 +60,9 @@ You will need an SMTP server, here are some options:
 
 - Very shortly we'll publish a guide to setting up your own secure SMTP server.
 
-Issue an ssl certificate for your hostname:
+- Check your SMTP setup https://toolbox.googleapps.com/apps/checkmx/check
+
+## Issue an SSL certificate for your hostname:
 
 ```sh
 docker run -it --rm -p 443:443 -p 80:80 --name letsencrypt \
@@ -78,7 +80,6 @@ docker-compose up -d
 ```
 
 install crontab
-note: change it to use docker-compose run
 ```
 cat crontab >> /etc/crontab
 ```
