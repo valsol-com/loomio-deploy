@@ -68,33 +68,32 @@ docker run -it --rm -p 443:443 -p 80:80 --name letsencrypt \
             quay.io/letsencrypt/letsencrypt:latest auth
 ```
 
-``` Setup the database
+## Create the database
+```
 docker-compose run web rake db:setup
 ```
 
-``` start the system
+## start the system
+```
 docker-compose up -d
 ```
 
-install crontab
+## install crontab
 ```
 cat crontab >> /etc/crontab
 ```
 
 todo:
-add mailin, loomio-pubsub, force ssl
-
-# these will be run by docker-compose automatically
-docker-compose run mailin
-docker-compose run loomio-pubsub
+confirm mailin, pubsub work
+force ssl
 
 ```sh
-docker logs loomio
 ```
 
 Other need to know docker commands include:
 * `docker ps` lists running containers.
 * `docker ps -a` lists all containers.
+* `docker logs <container>` to find out what a container is doing.
 * `docker stop <container_id or name>` will stop a container
 * `docker start <container_id or name>` will start a container
 * `docker restart <container_id or name>` will restart a container
