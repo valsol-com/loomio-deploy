@@ -12,6 +12,18 @@ web:
     - ./uploads:/loomio/whereveruploadsgo
     - ./certificates:/certificates
 
+worker:
+  image: loomio/loomio:docker
+  env_file: ./env
+  links:
+    - db:db
+  environment:
+    - DATABASE_URL=postgresql://postgres:password@db/loomio_production
+  volumes:
+    - ./uploads:/loomio/whereveruploadsgo
+    - ./certificates:/certificates
+  command: rake jobs:work
+
 db:
   image: postgres
   volumes:

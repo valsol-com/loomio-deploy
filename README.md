@@ -1,16 +1,27 @@
 # loomio-deploy
-## Use this to setup a Loomio instance
 
-know domain for host and have access to edit records
-add a record for new vps
-add mx record for inbound email priority 0
-insert, use/buy domain name, setup vps
+To setup your own instance of Loomio you'll need a domain name and access to modify records for that domain.
+You'll also need a server to run Loomio on. This guide assumes you have root access to a newly installed Ubuntu Linux x64 server.
+
+## Server and domain name records
+What hostname will you be using for your Loomio instance? What is the IP address of your server?
+
+I'm going to use loomio.example.com and 123.123.123.123 as my IP address.
+
+Just 2 domain name records are needed to run Loomio.
+The first one is an A record, so that when people enter your domain name in their browser it resolves to your server's IP address.
+The second is an MX so that when people reply by email to discussions, the email is sent to your server.
+
+```
+A loomio.example.com 123.123.123.123
+MX loomio.example.com, loomio.example.com, priority 0
+```
 
 ## Login as root
 To login to the server, open a terminal window and type:
 
 ```sh
-ssh root@loomio.dinotech.co.nz
+ssh root@loomio.example.com
 ```
 
 ## install docker and docker-compose
@@ -29,37 +40,37 @@ cd loomio-deploy
 ```
 
 ## Setup a swapfile (optional)
-If you don't have much memory it can help to turn some SSD into fake RAM
+If you have less than 2GB RAM on your server then this step is required. This script will create a 4GB swapfile on your host.
 
 ```sh
 ./scripts/create_swapfile
 ```
 
 ## Create your config file:
+This step creates an `env` file configured for your hostname. It also creates directories on the host to hold user data.
 
 ```sh
-./scripts/create_env your.host.name
+./scripts/create_env loomio.example.com
 ```
 
-# setup SMTP
+## Setup SMTP
 
 ```sh
 nano config/env
 ```
 
-You will need an SMTP server, here are some options:
+Loomio is broken if it cannot send email. In this step you need to edit your `env` file and configure the SMTP settings to get outbound email working.
 
-- If you already have a mail server, that's great, you know what to do.
+So you'll need an SMTP server. If you already have one, that's great, you know what to do. For everyone else here are some options to consider:
 
 - For setups that will send less than 99 emails a day [use smtp.google.com](https://www.digitalocean.com/community/tutorials/how-to-use-google-s-smtp-server) for free.
 
-- Look at the services offered by [SendGrid](https://sendgrid.com/), [SparkPost](https://www.sparkpost.com/), [Mailgun](http://www.mailgun.com/), [Mailjet](https://www.mailjet.com/pricing).
+- Look at the (sometimes free) services offered by [SendGrid](https://sendgrid.com/), [SparkPost](https://www.sparkpost.com/), [Mailgun](http://www.mailgun.com/), [Mailjet](https://www.mailjet.com/pricing).
 
-- Very shortly we'll publish a guide to setting up your own secure SMTP server.
-
-- Check your SMTP setup https://toolbox.googleapps.com/apps/checkmx/check
+- Very shortly we'll publish a guide to setting up your own private and secure SMTP server.
 
 ## Issue an SSL certificate for your hostname:
+It's easy to obtain an SSL certificate and encrypt all the traffic in and out of your Loomio instance. Just paste this command into your terminal and follow the onscreen instructions.
 
 ```sh
 docker run -it --rm -p 443:443 -p 80:80 --name letsencrypt \
@@ -69,11 +80,15 @@ docker run -it --rm -p 443:443 -p 80:80 --name letsencrypt \
 ```
 
 ## Create the database
+This command initializes a new database for your Loomio instance to use.
+
 ```
 docker-compose run web rake db:setup
 ```
 
 ## start the system
+This command starts the database, application, reply-by-email, and live-update services all at once.
+
 ```
 docker-compose up -d
 ```
@@ -82,6 +97,9 @@ docker-compose up -d
 ```
 cat crontab >> /etc/crontab
 ```
+
+## confirm it works
+visit your hostname in your browser and hopefully you'll see a login screen.
 
 todo:
 * confirm mailin, pubsub work
