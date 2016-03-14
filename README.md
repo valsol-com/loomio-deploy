@@ -94,6 +94,8 @@ docker-compose up -d
 ```
 
 ## install crontab
+Tell the host what regular tasks it needs to run to keep loomio functioning properly.
+
 ```
 cat crontab >> /etc/crontab
 ```
