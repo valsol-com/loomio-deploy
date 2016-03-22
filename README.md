@@ -56,7 +56,7 @@ This step creates an `env` file configured for your hostname. It also creates di
 ## Setup SMTP
 
 ```sh
-nano config/env
+nano env
 ```
 
 Loomio is broken if it cannot send email. In this step you need to edit your `env` file and configure the SMTP settings to get outbound email working.

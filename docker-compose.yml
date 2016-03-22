@@ -33,7 +33,9 @@ db:
    - PGDATA=/pgdata
 
 mailin:
-  image: loomio/mailin-docker:latest
+  image: loomio/mailin-docker
+  ports:
+    - "25:25"
   links:
     - web:web
   environment:
@@ -43,4 +45,4 @@ faye:
   image: loomio/loomio-faye
   env_file: ./env
   ports:
-    - 4443:4443
+    - "4443:4443"
