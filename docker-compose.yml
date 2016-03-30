@@ -9,7 +9,7 @@ web:
   environment:
     - DATABASE_URL=postgresql://postgres:password@db/loomio_production
   volumes:
-    - ./uploads:/loomio/whereveruploadsgo
+    - ./attachments:/loomio/public/system/attachments
     - ./certificates:/certificates
 
 worker:
@@ -20,7 +20,7 @@ worker:
   environment:
     - DATABASE_URL=postgresql://postgres:password@db/loomio_production
   volumes:
-    - ./uploads:/loomio/whereveruploadsgo
+    - ./attachments:/loomio/public/system/attachments
     - ./certificates:/certificates
   command: rake jobs:work
 
