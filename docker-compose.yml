@@ -1,5 +1,5 @@
 web:
-  image: loomio/loomio:docker
+  image: loomio/loomio
   env_file: ./env
   ports:
     - 80:3000
@@ -13,7 +13,7 @@ web:
     - ./certificates:/certificates
 
 worker:
-  image: loomio/loomio:docker
+  image: loomio/loomio
   env_file: ./env
   links:
     - db:db
