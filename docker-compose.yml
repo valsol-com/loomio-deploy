@@ -46,3 +46,5 @@ faye:
   env_file: ./env
   ports:
     - "4443:4443"
+  volumes:
+    - ./certificates:/certificates
