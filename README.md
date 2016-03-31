@@ -14,6 +14,7 @@ What hostname will you be using for your Loomio instance? What is the IP address
 
 For the purposes of this example, the hostname will be loomio.example.com and the IP address is 123.123.123.123
 
+
 ### DNS Records
 
 To allow people to access the site via your hostname you need an A record:
@@ -71,6 +72,7 @@ This script will create and mount a 4GB swapfile. If you have less than 2GB RAM 
 ### Create your Loomio ENV file
 This step creates an `env` file configured for your hostname. It also creates directories on the host to hold user data.
 
+Remember to change `loomio.example.com` to your hostname!
 ```sh
 ./scripts/create_env loomio.example.com
 ```
@@ -78,11 +80,10 @@ This step creates an `env` file configured for your hostname. It also creates di
 Now that it exists, have a look inside the file, it's where all your Loomio settings are kept.
 
 ```sh
-cat loomio.example.com
+cat env
 ```
 
 ### Setup SMTP
-
 
 Loomio is broken if it cannot send email. In this step you need to edit your `env` file and configure the SMTP settings to get outbound email working.
 
@@ -95,7 +96,7 @@ So you'll need an SMTP server. If you already have one, that's great, you know w
 - Soon we'll publish a guide to setting up your own private and secure SMTP server.
 
 ## Issue an SSL certificate for your hostname:
-It's easy to obtain an SSL certificate and encrypt all the traffic in and out of your Loomio instance. Just paste this command into your terminal and follow the onscreen instructions.
+Thanks to [Let's Encrypt](https://letsencrypt.org/), it's easy to obtain an SSL certificate and encrypt traffic to and from your Loomio instance. Paste this command into your terminal and follow the onscreen instructions.
 
 ```sh
 docker run -it --rm -p 443:443 -p 80:80 --name letsencrypt \
@@ -115,8 +116,8 @@ docker-compose run web rake db:setup
 Tell the server what regular tasks it needs to run. These tasks include:
 
 * Noticing which proposals are closing in 24 hours and notifying users.
-* Closing motions and notifying users they have closed.
-* Sending "Yesterday on Loomio", a digest of activity users have not already read.
+* Closing proposals and notifying users they have closed.
+* Sending "Yesterday on Loomio", a digest of activity users have not already read. This is sent to users at 6am in their local timezone.
 
 The following command appends some lines of text onto the system crontab file.
 
@@ -142,11 +143,13 @@ login, create two windows and test live update
 invite a fake email to your group, login as that user and start a discussion, you should get a notification email
 login with two tabs on the same page, you should see live update work.
 test that proposal closing soon works.
-run test:exception_notification
+test file upload.
 
 todo:
 * confirm mailin, pubsub work
 * force ssl
+
+## If something goes wrong
 
 Other need to know docker commands include:
 * `docker ps` lists running containers.
