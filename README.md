@@ -95,6 +95,12 @@ So you'll need an SMTP server. If you already have one, that's great, you know w
 
 - Soon we'll publish a guide to setting up your own private and secure SMTP server.
 
+Edit the `env` file and enter the right SMTP settings for your setup.
+
+```sh
+nano env
+```
+
 ## Issue an SSL certificate for your hostname:
 Thanks to [Let's Encrypt](https://letsencrypt.org/), it's easy to obtain an SSL certificate and encrypt traffic to and from your Loomio instance. Paste this command into your terminal and follow the onscreen instructions.
 
