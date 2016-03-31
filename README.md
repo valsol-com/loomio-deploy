@@ -119,7 +119,7 @@ docker-compose run web rake db:setup
 ```
 
 ### Install crontab
-Tell the server what regular tasks it needs to run. These tasks include:
+Doing this tells the server what regular tasks it needs to run. These tasks include:
 
 * Noticing which proposals are closing in 24 hours and notifying users.
 * Closing proposals and notifying users they have closed.
