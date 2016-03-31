@@ -21,3 +21,5 @@ LOOMIO_SSL_CERT=/certificates/live/REPLACE_WITH_HOSTNAME/fullchain.pem
 
 # helper bot is the account which welcomes people to their groups.
 HELPER_BOT_EMAIL=noreply@REPLACE_WITH_HOSTNAME
+RAILS_ENV=production
+FORCE_SSL=1

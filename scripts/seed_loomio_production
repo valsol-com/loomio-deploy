@@ -1,4 +1,0 @@
-#!/bin/sh
-docker run --link db:db \
-           loomio/loomio:docker \
-           rake db:setup

@@ -141,6 +141,7 @@ docker-compose up -d
 ## Try it out
 visit your hostname in your browser and hopefully you'll see a login screen.
 
+visit /users/sign_up and create a user account.
 
 testing it all
 start a group with /start_group
@@ -152,10 +153,17 @@ test that proposal closing soon works.
 test file upload.
 
 todo:
+ remove start_group path.
 * confirm mailin, pubsub work
 * force ssl
 
 ## If something goes wrong
+confirm `env` settings are correct.
+After you change your `env` file you need to restart the system:
+
+```sh
+docker-compose restart
+```
 
 Other need to know docker commands include:
 * `docker ps` lists running containers.

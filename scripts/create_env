@@ -1,6 +1,4 @@
 #!/bin/bash
-mkdir pgdata
-mkdir uploads
 # strips all chars except . from hostname
 dots=${1//[^.]}
 sed "s/REPLACE_WITH_HOSTNAME/${1}/; s/REPLACE_WITH_TLD_LENGTH/${#dots}/" scripts/defaultenv > env
