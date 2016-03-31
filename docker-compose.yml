@@ -22,7 +22,7 @@ worker:
   volumes:
     - ./attachments:/loomio/public/system/attachments
     - ./certificates:/certificates
-  command: bundle exec rake jobs:work
+  command: "bundle exec rake jobs:work"
 
 db:
   image: postgres
