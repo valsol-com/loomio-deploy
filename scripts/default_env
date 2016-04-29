@@ -1,0 +1,29 @@
+# this is the hostname of your app used by loomio
+CANONICAL_HOST=REPLACE_WITH_HOSTNAME
+
+# this is to tell nginx that you want requests for this hostname to come to the app
+VIRTUAL_HOST=REPLACE_WITH_HOSTNAME
+
+# this is to configure letsencrypt to automatically issue and renew your hostname
+LETSENCRYPT_HOST=REPLACE_WITH_HOSTNAME
+LETSENCRYPT_EMAIL=REPLACE_WITH_CONTACT_EMAIL
+
+# the number of dots in your hostname
+TLD_LENGTH=REPLACE_WITH_TLD_LENGTH
+
+# smtp settings
+SUPPORT_EMAIL=REPLACE_WITH_CONTACT_EMAIL
+SMTP_DOMAIN=REPLACE_WITH_HOSTNAME
+
+SMTP_SERVER=smtp.something.com
+SMTP_PORT=465
+SMTP_USERNAME=smtpusername
+SMTP_PASSWORD=smtppassword
+
+FAYE_URL=https://faye.REPLACE_WITH_HOSTNAME/faye
+REPLY_HOSTNAME=REPLACE_WITH_HOSTNAME
+
+# helper bot is the account which welcomes people to their groups.
+HELPER_BOT_EMAIL=no-reply@REPLACE_WITH_HOSTNAME
+RAILS_ENV=production
+FORCE_SSL=1

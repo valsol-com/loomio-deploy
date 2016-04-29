@@ -1,26 +1,34 @@
-# loomio-deploy
+# Deploy your own Loomio
 
-This repo is a basic docker-compose configuration for running Loomio on your own server.
+This repo contains a basic docker-compose configuration for running Loomio on your own server.
 
-This README is a guide to setting up Loomio using this docker-compose based system.
+It assumes you want to run everything on a single host. It automatically issues
+an SSL certificate for you via the amazing [letsencrypt.org](https://letsencrypt.org/).
 
 ## What you'll need
-I assume that you have root access to a server running a default configuration of Ubuntu 14.04 x64.
-You'll also need a public IP address for the server and a domain name which you can create DNS records for.
-Finally you'll need some kind of SMTP server for sending email. More on that below.
+* Root access to a server, on a public IP address, running a default configuration of Ubuntu 14.04 x64.
+
+* A domain name which you can create DNS records for.
+
+* An SMTP server for sending email. More on that below.
 
 ## Network configuration
 What hostname will you be using for your Loomio instance? What is the IP address of your server?
 
 For the purposes of this example, the hostname will be loomio.example.com and the IP address is 123.123.123.123
 
-
 ### DNS Records
 
 To allow people to access the site via your hostname you need an A record:
 
 ```
-A loomio.example.com 123.123.123.123
+A loomio.example.com, 123.123.123.123
+```
+
+You also need to setup a CNAME record for the live update service
+
+```
+CNAME faye.loomio.example.com, loomio.example.com
 ```
 
 Loomio supports "Reply by email" and to enable this you need an MX record so mail servers know where to direct these emails.
@@ -36,7 +44,7 @@ MX loomio.example.com, loomio.example.com, priority 0
 To login to the server, open a terminal window and type:
 
 ```sh
-ssh root@loomio.example.com
+ssh -A root@loomio.example.com
 ```
 
 ### Install docker and docker-compose
@@ -63,31 +71,40 @@ The commands below assume your working directory is this repo, on your server.
 
 ### Setup a swapfile (optional)
 There are some simple scripts within this repo to help you configure your server.
+
 This script will create and mount a 4GB swapfile. If you have less than 2GB RAM on your server then this step is required.
 
 ```sh
 ./scripts/create_swapfile
 ```
 
-### Create your Loomio ENV file
-This step creates an `env` file configured for your hostname. It also creates directories on the host to hold user data.
+### Create your ENV files
+This script creates `env` and `faye_env` files configured for you. It also creates directories on the host to hold user data.
 
-Remember to change `loomio.example.com` to your hostname!
+When you run this, remember to change `loomio.example.com` to your hostname, and give your contact email address, so you can recover your SSL keys later if required.
+
 ```sh
-./scripts/create_env loomio.example.com
+./scripts/create_env loomio.example.com you@contact.email
 ```
 
-Now that it exists, have a look inside the file, it's where all your Loomio settings are kept.
+Now have a look inside the files:
 
 ```sh
 cat env
 ```
 
+and
+
+```sh
+cat faye_env
+```
+
+
 ### Setup SMTP
 
-Loomio is broken if it cannot send email. In this step you need to edit your `env` file and configure the SMTP settings to get outbound email working.
+Loomio is technically broken if it cannot send email. In this step you need to edit your `env` file and configure the SMTP settings to get outbound email working.
 
-So you'll need an SMTP server. If you already have one, that's great, you know what to do. For everyone else here are some options to consider:
+So, you'll need an SMTP server. If you already have one, that's great, you know what to do. For everyone else here are some options to consider:
 
 - For setups that will send less than 99 emails a day [use smtp.google.com](https://www.digitalocean.com/community/tutorials/how-to-use-google-s-smtp-server) for free.
 
@@ -97,25 +114,17 @@ So you'll need an SMTP server. If you already have one, that's great, you know w
 
 Edit the `env` file and enter the right SMTP settings for your setup.
 
+You might need to add an SPF record to indicate that the SMTP can send mail for your domain.
+
 ```sh
 nano env
-```
-
-## Issue an SSL certificate for your hostname:
-Thanks to [Let's Encrypt](https://letsencrypt.org/), it's easy to obtain an SSL certificate and encrypt traffic to and from your Loomio instance. Paste this command into your terminal and follow the onscreen instructions.
-
-```sh
-docker run -it --rm -p 443:443 -p 80:80 --name letsencrypt \
-            -v "/root/loomio-deploy/certificates/:/etc/letsencrypt" \
-            -v "/var/lib/letsencrypt:/var/lib/letsencrypt" \
-            quay.io/letsencrypt/letsencrypt:latest auth
 ```
 
 ### Initialize the database
 This command initializes a new database for your Loomio instance to use.
 
 ```
-docker-compose run web rake db:setup
+docker-compose run loomio rake db:setup
 ```
 
 ### Install crontab
@@ -138,57 +147,42 @@ This command starts the database, application, reply-by-email, and live-update s
 docker-compose up -d
 ```
 
+You'll want to see the logs as it all starts, run the following command:
+
+```
+docker-compose logs
+```
+
 ## Try it out
-visit your hostname in your browser and hopefully you'll see a login screen.
+visit your hostname in your browser. something like `https://loomio.example.com`.
+You should see a login screen, but instead sign up at `https://loomio.example.com/users/sign_up`
 
-visit /users/sign_up and create a user account.
+## Test the functionality
+Test that email is working by visiting `https://loomio.example.com/users/password/new` and get a password reset link sent to you.
 
-testing it all
-start a group with /start_group
-you should get an email
-login, create two windows and test live update
-invite a fake email to your group, login as that user and start a discussion, you should get a notification email
-login with two tabs on the same page, you should see live update work.
+Test that live update works with two tabs on the same discussion, write a comment in one, and it should appear in the other.
+Test that you can upload files into a thread.
+Test that you can reply by email.
 test that proposal closing soon works.
-test file upload.
-
-todo:
- remove start_group path.
-* confirm mailin, pubsub work
-* force ssl
 
 ## If something goes wrong
 confirm `env` settings are correct.
+
 After you change your `env` file you need to restart the system:
-
-```sh
-docker-compose restart
-```
-
-Other need to know docker commands include:
-* `docker ps` lists running containers.
-* `docker ps -a` lists all containers.
-* `docker logs <container>` to find out what a container is doing.
-* `docker stop <container_id or name>` will stop a container
-* `docker start <container_id or name>` will start a container
-* `docker restart <container_id or name>` will restart a container
-* `docker rm <container_id or name>` will delete a container
-* `docker pull loomio/loomio:latest` pulls the latest version of loomio
-* `docker help <command>` will help you understand commands
+run `docker-compose down` then `docker-compose up -d`
 
 To update Loomio to the latest image you'll need to stop, rm, pull, and run again.
 
 ```sh
-docker stop loomio
-docker rm loomio
-docker pull loomio/loomio
-docker run
+docker-compose down
+docker-compose pull
+docker-compose up -d
 ```
 
-To login to your running rails app
+To login to your running rails app console:
 
 ```sh
-docker exec -t -i loomiodeploy_app_1 bundle exec rails console
+docker exec loomiodeploy_worker_1 bundle exec rails console
 ```
 
-*Need some help?* Check out the [Installing Loomio group](https://www.loomio.org/g/C7I2YAPN/loomio-community-installing-loomio).
+*Need some help?* Visit the [Installing Loomio group](https://www.loomio.org/g/C7I2YAPN/loomio-community-installing-loomio).
