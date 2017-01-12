@@ -54,7 +54,7 @@ db:
 mailin:
   image: loomio/mailin-docker
   ports:
-    - 25:25
+    - "25:25"
   links:
     - loomio
   environment:
