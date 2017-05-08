@@ -53,7 +53,7 @@ These commands install docker and docker-compose, copy and paste.
 
 ```sh
 wget -qO- https://get.docker.com/ | sh
-wget -O /usr/local/bin/docker-compose https://github.com/docker/compose/releases/download/1.6.2/docker-compose-`uname -s`-`uname -m`
+wget -O /usr/local/bin/docker-compose https://github.com/docker/compose/releases/download/1.12.0/docker-compose-`uname -s`-`uname -m`
 chmod +x /usr/local/bin/docker-compose
 ```
 
