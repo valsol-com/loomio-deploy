@@ -1,4 +1,6 @@
 /env
 /faye_env
 /pgdata
-/attachments
+/uploads
+/certificates
+/nginx
