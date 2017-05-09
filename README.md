@@ -153,6 +153,12 @@ You'll want to see the logs as it all starts, run the following command:
 docker-compose logs
 ```
 
+You might like to keep an additional console open by your side to watch for potential errors or warnings:
+
+```
+docker-compose logs -f
+```
+
 ## Try it out
 visit your hostname in your browser. something like `https://loomio.example.com`.
 You should see a login screen, but instead sign up at `https://loomio.example.com/users/sign_up`
@@ -166,17 +172,28 @@ Test that you can reply by email.
 test that proposal closing soon works.
 
 ## If something goes wrong
-confirm `env` settings are correct.
+Confirm `env` and `faye-env` settings are correct.
 
-After you change your `env` file you need to restart the system:
-run `docker-compose down` then `docker-compose up -d`
+After you change your `env` or `faye-env` files you need to restart the system:
 
-To update Loomio to the latest image you'll need to stop, rm, pull, and run again.
+```sh
+docker-compose down
+docker-compose up -d
+```
+
+To update Loomio to the latest image you'll need to stop, rm, pull, apply potential changes to the database schema, and run again.
 
 ```sh
 docker-compose down
 docker-compose pull
+docker-compose run loomio rake db:migrate
 docker-compose up -d
+```
+
+From time to time, or if you are running out of disk space (check `/var/lib/docker`):
+
+```sh
+docker rmi $(docker images -f "dangling=true" -q)
 ```
 
 To login to your running rails app console:
@@ -184,5 +201,32 @@ To login to your running rails app console:
 ```sh
 docker exec loomiodeploy_worker_1 bundle exec rails console
 ```
+
+A PostgreSQL shell to inspect the database:
+
+```sh
+docker exec -ti loomiodeploy_db_1 su - postgres -c 'psql loomio_production'
+```
+
+
+## Building a backup policy
+Most of the environment we have set up so far can be considered disposable, as it can be rebuilt from scratch in a few minutes.
+
+Things you want to consider when designing a proper backup policy:
+
+* `loomio-deploy/uploads`
+* `loomio-deploy/env`
+* `loomio-deploy/faye-env`
+
+And a database dump:
+
+```sh
+docker exec -ti loomiodeploy_db_1 su - postgres -c 'pg_dump loomio_production' \
+  | xz \
+  > $(date +%Y-%m-%d_%H:%M).pg_dump.xz
+```
+
+Be sure you exclude `loomio-deploy/pgdata` — all you need from the database is in the dump.
+
 
 *Need some help?* Visit the [Installing Loomio group](https://www.loomio.org/g/C7I2YAPN/loomio-community-installing-loomio).
