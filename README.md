@@ -63,7 +63,7 @@ This is the place where all the configuration for your Loomio services will live
 As root on your server, clone this repo:
 
 ```sh
-git clone https://github.com/loomio/loomio-deploy.git
+git clone https://github.com/valsol-com/loomio-deploy.git
 cd loomio-deploy
 ```
 
@@ -78,8 +78,8 @@ This script will create and mount a 4GB swapfile. If you have less than 2GB RAM 
 ./scripts/create_swapfile
 ```
 
-### Create your ENV files
-This script creates `env` and `faye_env` files configured for you. It also creates directories on the host to hold user data.
+### Create your docker-compose.yml and ENV files
+This script creates a `docker-compose.yml`, `env` and `faye_env` files configured for you. It also creates directories on the host to hold user data.
 
 When you run this, remember to change `loomio.example.com` to your hostname, and give your contact email address, so you can recover your SSL keys later if required.
 
@@ -91,6 +91,10 @@ Now have a look inside the files:
 
 ```sh
 cat env
+```
+
+```sh
+cat docker-compose.yml
 ```
 
 and
