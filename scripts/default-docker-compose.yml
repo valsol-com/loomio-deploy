@@ -33,7 +33,7 @@ services:
       - faye
 
   loomio:
-    image: loomio/loomio
+    image: valsol/loomio
     networks:
       - default
     expose:
@@ -49,7 +49,7 @@ services:
       - ./uploads:/loomio/public/system
 
   worker:
-    image: loomio/loomio
+    image: valsol/loomio
     networks:
       - default
     env_file: ./env
